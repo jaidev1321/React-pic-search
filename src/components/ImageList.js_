@@ -1,0 +1,50 @@
+import React from "react";
+const ImageList = props => {
+  console.log(props);
+
+  const imgListView = props.images.map(img => {
+    console.log(img);
+    // return false;
+    return (
+      <div>
+        <div className="ui container">
+          <div className="ui relaxed divided items">
+            <div className="item ui info message">
+              <div className="ui small image">
+                <a href={img.urls.full} target="_blank">
+                  <img
+                    alt={img.alt_description}
+                    key={img.id}
+                    src={img.urls.thumb}
+                  />
+                </a>
+              </div>
+              <div className="content">
+                <a className="header">{img.user.name}</a>
+                <div className="meta">
+                  <a>Bio : {img.user.bio}</a>
+                  <br />
+                  <span>Location : {img.user.location}</span>
+                  <br />
+                  <a
+                    target="_blank"
+                    href={`https://instagram.com/${
+                      img.user.instagram_username
+                    }`}
+                  >
+                    Instagram ID: {img.user.instagram_username}
+                  </a>
+                </div>
+                <div className="description">{img.description}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  });
+  console.log(imgListView);
+  return <div>{imgListView}</div>;
+};
+
+export default ImageList;

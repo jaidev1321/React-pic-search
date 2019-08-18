@@ -1,0 +1,50 @@
+import React, { Component } from "react";
+import SearchBar from "./SearchBar";
+import unsplash from "../api/unsplash";
+import ImageList from "./ImageList";
+import axios from "./axios";
+export default class App extends Component {
+  state = {
+    errorMsg: "",
+    images: [],
+    searchLoader: ""
+  };
+  searchSubmitHandler = async val => {
+    this.setState({
+      searchLoader: "searching...",
+      images: []
+    });
+    const response = await unsplash.get("/search/photos", {
+      params: { query: val }
+    });
+
+    if (response.request.status === 200 && response.data.total > 0) {
+      this.setState({
+        errorMsg: "",
+        images: response.data.results,
+        searchLoader: ""
+      });
+    } else {
+      this.setState({
+        errorMsg: "No Image Found",
+        searchLoader: ""
+      });
+    }
+  };
+
+  componentDidUpdate() {
+    console.log("c d u");
+  }
+  render() {
+    return (
+      <div>
+        <SearchBar onSubmit={this.searchSubmitHandler} />
+        <ImageList images={this.state.images} />
+        <h4>
+          <center>{this.state.errorMsg}</center>
+        </h4>
+        <h4>{this.state.searchLoader}</h4>
+      </div>
+    );
+  }
+}
